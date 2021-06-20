@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "DS2Yl4qlFdQse8ygw3vU7iT5k/2h9sDB2aUaRfVo75BQEYXQ5wAmWrAswj2P0XHMXcMGdG3pbSnNI1jFEyI0Jg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Professional\\RiderProjects\\HeightMapLayering\\HeightMapLayering\\HeightMapLayering.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Professional\\.nuget\\packages\\sixlabors.imagesharp\\1.0.3\\sixlabors.imagesharp.1.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
