@@ -49,6 +49,7 @@ namespace HeightMapLayering
             var layersNumber = int.Parse(LayersNumber.Text);
             var darknessPerLayer = (byte) Math.Ceiling(256 / (decimal) layersNumber);
             var darknessFactor = byte.Parse(DarknessFactor.Text);
+            int maxDarkness = 0;
 
             for (var layerNumber = 1; layerNumber <= layersNumber; layerNumber++)
             {
@@ -74,12 +75,25 @@ namespace HeightMapLayering
                         if (darkness <= darknessPerLayer * 1.25)
                         {
                             originalPixelRowSpan[columnIndex] = new Rgba32(255, 255, 255, 255);
-                            var adjustedBrightness = DarknessToBrightness((byte)(BrightnessToDarkness(brightness) * darknessFactor));
-                            layerPixelRowSpan[columnIndex] = new Rgba32(adjustedBrightness, adjustedBrightness, adjustedBrightness, 255);
+                            var adjustedDarkness = BrightnessToDarkness(brightness) * darknessFactor;
+                            if (adjustedDarkness > maxDarkness)
+                            {
+                                maxDarkness = adjustedDarkness;
+                            }
+
+                            var adjustedBrightness = DarknessToBrightness((byte) adjustedDarkness);
+                            layerPixelRowSpan[columnIndex] = new Rgba32(adjustedBrightness, adjustedBrightness,
+                                adjustedBrightness, 255);
                         }
                         else
                         {
-                            var adjustedBrightnessDelta = DarknessToBrightness((byte) (darknessPerLayer * darknessFactor));
+                            var adjustedDarkness = (darknessPerLayer * darknessFactor);
+                            if (adjustedDarkness > maxDarkness)
+                            {
+                                maxDarkness = adjustedDarkness;
+                            }
+
+                            var adjustedBrightnessDelta = DarknessToBrightness((byte) adjustedDarkness);
                             var newBrightness = DarknessToBrightness((byte) (darkness - darknessPerLayer));
 
                             originalPixelRowSpan[columnIndex] = new Rgba32(
@@ -103,6 +117,8 @@ namespace HeightMapLayering
                 layerImage.SaveAsPng(DestinationName.Text + Path.DirectorySeparatorChar + layerNumber.ToString() +
                                      ".png");
             }
+
+            MessageBox.Show("Максимальное значение глубины: " + maxDarkness.ToString());
         }
 
         private static byte DarknessToBrightness(byte darknessDelta)
